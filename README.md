@@ -93,12 +93,13 @@ using `REPLACE()` and `PARSENAME()`.
 
 ### 5. Standardized Values
 
-Converted the `SoldAsVacant` values from:
+Standardized the **SoldAsVacant** column by converting abbreviated values into a consistent format using a `CASE` statement.
 
-- Y → Yes
-- N → No
+**Changes made:**
+- `Y` → `Yes`
+- `N` → `No`
 
-using a `CASE` statement.
+This eliminated inconsistent values in the dataset, ensuring the column contained only `Yes` and `No` instead of a mixture of `Y`, `N`, `Yes`, and `No`.
 
 ---
 
