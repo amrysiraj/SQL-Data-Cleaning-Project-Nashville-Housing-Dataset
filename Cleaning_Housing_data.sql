@@ -114,3 +114,49 @@ add OwnerSplitState nvarchar(255);
 
 update [dbo].[HousingData]
 set OwnerSplitState = parsename(replace((OwnerAddress), ',', '.'), 1);
+
+
+-- Change Y and N to Yes and No in "Sold as Vacant" field
+
+select 
+distinct([SoldAsVacant]), count([SoldAsVacant])
+from [dbo].[HousingData]
+group by [SoldAsVacant]
+order by 2;
+
+select 
+[SoldAsVacant],
+case when [SoldAsVacant] = 'Y' then 'Yes' 
+	 when [SoldAsVacant] = 'N' then 'No'
+	 else [SoldAsVacant]
+end 
+from [dbo].[HousingData];
+
+update [dbo].[HousingData]
+set [SoldAsVacant] = case when [SoldAsVacant] = 'Y' then 'Yes' 
+	                      when [SoldAsVacant] = 'N' then 'No'
+	                      else [SoldAsVacant]
+                     end ;
+
+-- Remove Duplicates
+
+with row_numCTE as
+	(
+select *,
+ROW_NUMBER() over (partition by [ParcelID], [PropertyAddress], [SaleDate], [SalePrice], [LegalReference] , [OwnerName]   order by [UniqueID ]) as row_num
+from [dbo].[HousingData]
+	)
+
+Delete 
+from row_numCTE
+where row_num > 1
+
+
+-- Delete Unused Columns
+
+Select *
+From [dbo].[HousingData]
+
+
+ALTER TABLE [dbo].[HousingData]
+DROP COLUMN OwnerAddress, TaxDistrict, PropertyAddress, SaleDate
