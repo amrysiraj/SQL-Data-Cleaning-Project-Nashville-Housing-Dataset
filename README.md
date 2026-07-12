@@ -142,4 +142,4 @@ This project strengthened my understanding of:
 
 ## Author
 
-Sirajudeen Mohamed Amry
+Mohamed Amry Sirajudeen
